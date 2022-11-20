@@ -86,11 +86,10 @@ def crossover(chroA, chroB):
 
 def mutate(chromosome):
     global n
-    for i in range(n):		
-        prob = random.uniform(0, 1)
-        if prob > 0.5:
-            chromosome ^= (1 << i)
-    return chromosome
+    prob = random.uniform(0, 1)
+    if (prob < 0.5):
+        return chromosome
+    return chromosome ^ (1 << random.randint(0, n))
 
 
 def initializePopulation():

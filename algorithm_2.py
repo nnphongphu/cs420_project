@@ -52,7 +52,7 @@ def calF(state, value, weight):
     w = weight
     for i, item in enumerate(items):
         if ((state & (1 << i)) == 0):
-            if (item.w + weight <= W):
+            if (item.w + w <= W):
                 f += item.v
                 w += item.w
             else:
@@ -88,7 +88,7 @@ def process():
                 q.append(to)
                 if (bound < to.f):
                     bound = to.f
-                if (to.f > -1 and ans[0] < to.v):
+                if (to.f > 0 and ans[0] < to.v):
                     ans = [to.v, to.s]
 
 

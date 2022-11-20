@@ -68,11 +68,12 @@ def process():
     ans = [0, 0]
     q.append(Node(0, 0, 0, -1))
     visited = {}
+    offset = 100
 
     while (len(q)):
         at = q.pop(0)
 
-        if (at.f < bound):
+        if (at.f < bound - 250):
             continue
     
         for i in range(n):

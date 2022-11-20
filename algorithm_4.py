@@ -93,11 +93,22 @@ def mutate(chromosome):
     return chromosome
 
 
+def initializePopulation():
+    parents = [random.randint(0, (1<<n)-1) for _ in range(population_size)]
+    fitness_scores = [fitness(parent) for parent in parents]
+    total = sum(fitness_scores)
+    while (total == 0):
+        parents = [random.randint(0, (1<<n)-1) for _ in range(population_size)]
+        fitness_scores = [fitness(parent) for parent in parents]
+        total = sum(fitness_scores)
+    return parents
+
+
 def process():
     global parents, population_size, max_stack_size, items
 
     # population initialization
-    parents = [random.randint(0, (1<<n)-1) for _ in range(population_size)]
+    parents = initializePopulation()
 
     for _ in range(max_stack_size):
         # fitness assignment
@@ -106,7 +117,7 @@ def process():
         #selection
         total = sum(fitness_scores)
         if (total == 0):
-            parents = [random.randint(0, (1<<n)-1) for _ in range(population_size)]
+            parents = initializePopulation()
             continue
 
         selection_probs = [fitness_score/total for fitness_score in fitness_scores]

@@ -95,11 +95,22 @@ def getNeighbors(state):
     return neighbors
 
 
+def initializePopulation():
+    parents = [random.randint(0, (1<<n)-1) for _ in range(population_size)]
+    fitness_scores = [fitness(parent) for parent in parents]
+    total = sum(fitness_scores)
+    while (total == 0):
+        parents = [random.randint(0, (1<<n)-1) for _ in range(population_size)]
+        fitness_scores = [fitness(parent) for parent in parents]
+        total = sum(fitness_scores)
+    return parents
+
+
 def process():
     global population, population_size, max_stack_size
 
     # initialize population
-    population = [random.randint(0, (1 << n) - 1) for i in range(0, population_size)]
+    population = initializePopulation()
     
     # local beam search
     for _ in range(max_stack_size):
@@ -111,7 +122,7 @@ def process():
         neighbors = sorted(neighbors, key=lambda neighbor: neighbor.f, reverse=True)[:population_size]
         
         if (neighbors[0].f == 0):
-            population = [random.randint(0, (1 << n) - 1) for i in range(0, population_size)]
+            population = initializePopulation()
             continue
 
         population = [neighbor.s for neighbor in neighbors]
@@ -128,6 +139,6 @@ if __name__ == '__main__':
         print('usage:\talgorithm_3.py <input_file> <output_file> <population_size(optional)> <max_stack_size(optional)>')
         sys.exit(0)
     global population_size, max_stack_size
-    population_size = 3 if (len(sys.argv) <= 3) else int(sys.argv[3]) 
-    max_stack_size = 50 if (len(sys.argv) <= 4) else int(sys.argv[4])
+    population_size = 10 if (len(sys.argv) <= 3) else int(sys.argv[3]) 
+    max_stack_size = 500 if (len(sys.argv) <= 4) else int(sys.argv[4])
     main(sys.argv[1],sys.argv[2])
